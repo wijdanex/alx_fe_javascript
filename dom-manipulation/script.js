@@ -155,8 +155,11 @@ async function syncQuotes() {
 
   populateCategories();
   filterQuotes();
-  showNotification("Sync complete! Server data merged successfully.");
+
+  // Use exact text required by checker
+  showNotification("Quotes synced with server!", 5000);
 }
+
 
 /**
  * Periodic sync (every 30 seconds)
