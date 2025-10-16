@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Quote Generator with Filtering</title>
+  <title>Dynamic Quote Generator - Sync & Conflict Resolution</title>
 </head>
 <body>
-  <h1>Dynamic Quote Generator</h1>
+  <h1>Dynamic Quote Generator (with Server Sync)</h1>
+
+  <!-- Notification area -->
+  <div id="notification" style="background:#fffae6; padding:10px; margin-bottom:10px; display:none;"></div>
 
   <!-- Category Filter -->
   <label for="categoryFilter">Filter by Category:</label>
@@ -26,6 +29,9 @@
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteBtn">Add Quote</button>
   </div>
+
+  <!-- Manual Sync Button -->
+  <button id="syncNow">Sync Now</button>
 
   <script src="script.js"></script>
 </body>
