@@ -1,5 +1,3 @@
-// script.js - Fixed for ALX checker requirements
-
 // Quotes array with objects containing text and category
 const quotes = [
   { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
@@ -7,87 +5,50 @@ const quotes = [
   { text: "It’s not whether you get knocked down, it’s whether you get up.", category: "Resilience" }
 ];
 
-/**
- * displayRandomQuote
- * - Chooses a random quote from `quotes`
- * - Updates the DOM element with id "quoteDisplay"
- * Required by checker: existence + DOM update logic
- */
-function displayRandomQuote() {
+// Function to display a random quote
+function showRandomQuote() {
   const quoteDisplay = document.getElementById("quoteDisplay");
-  if (!quoteDisplay) return;
 
+  // Select a random quote
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
 
+  // Update DOM
   quoteDisplay.innerHTML = `
-    <div class="quote-card">
-      <p class="quote-category"><strong>Category:</strong> ${quote.category}</p>
-      <p class="quote-text">"${quote.text}"</p>
-    </div>
+    <p><strong>Category:</strong> ${quote.category}</p>
+    <p>"${quote.text}"</p>
   `;
 }
 
-// keep backward compatibility: some instructions used showRandomQuote
-const showRandomQuote = displayRandomQuote;
-
-/**
- * addQuote
- * - Reads inputs with ids "newQuoteText" and "newQuoteCategory"
- * - Validates, pushes a new object into the `quotes` array
- * - Updates the DOM by calling displayRandomQuote()
- * Required by checker: existence + logic to add to array + update DOM
- */
+// Function to add a new quote
 function addQuote() {
-  const textInput = document.getElementById("newQuoteText");
-  const categoryInput = document.getElementById("newQuoteCategory");
+  const quoteText = document.getElementById("newQuoteText").value.trim();
+  const quoteCategory = document.getElementById("newQuoteCategory").value.trim();
 
-  if (!textInput || !categoryInput) {
-    console.warn("Add Quote: input elements not found");
-    return false;
+  if (quoteText !== "" && quoteCategory !== "") {
+    // Add the new quote to the array
+    quotes.push({ text: quoteText, category: quoteCategory });
+
+    // Update the DOM directly after adding
+    const quoteDisplay = document.getElementById("quoteDisplay");
+    quoteDisplay.innerHTML = `
+      <p><strong>Category:</strong> ${quoteCategory}</p>
+      <p>"${quoteText}"</p>
+    `;
+
+    // Clear the input fields
+    document.getElementById("newQuoteText").value = "";
+    document.getElementById("newQuoteCategory").value = "";
+  } else {
+    alert("Please enter both a quote and category!");
   }
-
-  const newQuoteText = textInput.value.trim();
-  const newQuoteCategory = categoryInput.value.trim();
-
-  if (newQuoteText === "" || newQuoteCategory === "") {
-    // keep simple feedback — checker doesn't rely on alerts but it's OK to have one
-    alert("Please enter both a quote and a category!");
-    return false;
-  }
-
-  // Add new quote object to the quotes array
-  quotes.push({
-    text: newQuoteText,
-    category: newQuoteCategory
-  });
-
-  // Clear inputs
-  textInput.value = "";
-  categoryInput.value = "";
-
-  // Immediately update the DOM to reflect the addition
-  displayRandomQuote();
-
-  return true;
 }
 
-// Make functions globally accessible (some checkers inspect window)
-window.addQuote = addQuote;
-window.displayRandomQuote = displayRandomQuote;
-window.showRandomQuote = showRandomQuote;
+// Event listener for “Show New Quote” button
+document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 
-// Event listeners
-// - "Show New Quote" should call displayRandomQuote (checker specifically checks this listener)
-const newQuoteBtn = document.getElementById("newQuote");
-if (newQuoteBtn) {
-  newQuoteBtn.addEventListener("click", displayRandomQuote);
-} else {
-  console.warn('Button with id "newQuote" not found.');
-}
+// Event listener for “Add Quote” button
+document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
 
-// "Add Quote" button listener (also helpful for checkers)
-const addQuoteBtn = document.getElementById("addQuoteBtn");
-if (addQuoteBtn) {
-  addQuoteBtn.addEventListener("click", addQuote);
-}
+// Show one quote on page load
+showRandomQuote();
