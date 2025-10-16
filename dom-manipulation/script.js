@@ -1,4 +1,4 @@
-// Quotes array with objects containing text and category
+// Array of quote objects with text and category properties
 const quotes = [
   { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
   { text: "Don’t let yesterday take up too much of today.", category: "Inspiration" },
@@ -9,11 +9,11 @@ const quotes = [
 function showRandomQuote() {
   const quoteDisplay = document.getElementById("quoteDisplay");
 
-  // Select a random quote
+  // Select a random quote from the array
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
 
-  // Update DOM
+  // Update the DOM
   quoteDisplay.innerHTML = `
     <p><strong>Category:</strong> ${quote.category}</p>
     <p>"${quote.text}"</p>
@@ -22,33 +22,35 @@ function showRandomQuote() {
 
 // Function to add a new quote
 function addQuote() {
-  const quoteText = document.getElementById("newQuoteText").value.trim();
-  const quoteCategory = document.getElementById("newQuoteCategory").value.trim();
+  // Get input values
+  const newQuoteText = document.getElementById("newQuoteText").value.trim();
+  const newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
 
-  if (quoteText !== "" && quoteCategory !== "") {
-    // Add the new quote to the array
-    quotes.push({ text: quoteText, category: quoteCategory });
+  // Check that both fields have values
+  if (newQuoteText !== "" && newQuoteCategory !== "") {
+    // Add new quote to quotes array
+    quotes.push({ text: newQuoteText, category: newQuoteCategory });
 
-    // Update the DOM directly after adding
+    // Update the DOM to show the newly added quote
     const quoteDisplay = document.getElementById("quoteDisplay");
     quoteDisplay.innerHTML = `
-      <p><strong>Category:</strong> ${quoteCategory}</p>
-      <p>"${quoteText}"</p>
+      <p><strong>Category:</strong> ${newQuoteCategory}</p>
+      <p>"${newQuoteText}"</p>
     `;
 
-    // Clear the input fields
+    // Clear input fields
     document.getElementById("newQuoteText").value = "";
     document.getElementById("newQuoteCategory").value = "";
   } else {
-    alert("Please enter both a quote and category!");
+    alert("Please enter both quote text and category.");
   }
 }
 
-// Event listener for “Show New Quote” button
+// Event listener for "Show New Quote" button
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 
-// Event listener for “Add Quote” button
+// Event listener for "Add Quote" button
 document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
 
-// Show one quote on page load
+// Display one random quote when the page loads
 showRandomQuote();
